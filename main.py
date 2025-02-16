@@ -144,38 +144,39 @@ Supported quantities and units:
     units: dict = {'temperature': ['Kelvin', 'Degree Celsius', 'Degree Fahrenheit'],
                    'volume': ['m^3', 'L', 'dL', 'mL', 'cm^3'],
                    'mass': ['ton', 'kg', 'g', 'mg']}
+    exit_message: str = 'Exiting program'
     while True:
         try:
-            user_input = input('Enter the type of unit to convert from: ')
+            user_input: str = input('Enter the type of unit to convert from: ')
 
             if user_input == 'exit':
-                print('Thanks for trying my program!')
+                print(exit_message)
                 exit()
 
-            unit_from = user_input
+            unit_from: str = user_input
 
             if unit_from not in units['temperature'] and unit_from not in units['mass'] and unit_from not in units['volume']:
                 print('Invalid unit...')
                 continue
 
-            unit_to = input('Enter the type of unit to convert to: ')
+            unit_to: str = input('Enter the type of unit to convert to: ')
 
             if unit_to not in units['temperature'] and unit_to not in units['mass'] and unit_to not in units['volume']:
-                print('Invalid unit...')
+                print('Please enter a valid unit...')
                 continue
 
             if unit_from == unit_to:
-                print('Same unit...')
+                print('Please enter different units...')
                 continue
 
-            flag = False
+            flag: bool = False
             for key in units.keys():
                 if unit_from in units[key] and unit_to in units[key]:
                     flag = True
                     break
 
             if not flag:
-                print('Units do not belong to the same quantity...')
+                print('Please enter units of the same quantity...')
                 continue
 
             value: float = float(input('Enter the value: '))
@@ -192,10 +193,11 @@ Supported quantities and units:
                 print(f'{value:.2f} {unit_from} = {mass:.2f} {unit_to}')
 
         except ValueError:
-            print('Invalid input...')
+            print('Please enter valid input...')
             continue
+
         except KeyboardInterrupt:
-            print('Exiting...')
+            print(exit_message)
             exit()
 
 
