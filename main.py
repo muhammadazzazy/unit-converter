@@ -2,79 +2,79 @@ from sys import exit
 
 
 def convert_temp(value: float, unit_from: str, unit_to: str, temp_units: list[str]) -> float:
-    if unit_from == temp_units[0] and unit_to == temp_units[1]:
+    if (unit_from == temp_units[0]) and (unit_to == temp_units[1]):
         temperature_celsius: float = value - 273.15
         return temperature_celsius
 
-    elif unit_from == temp_units[0] and unit_to == temp_units[2]:
+    elif (unit_from == temp_units[0]) and (unit_to == temp_units[2]):
         temperature_celsius: float = value - 273.15
         temperature_fahrenheit: float = (temperature_celsius * 9/5) + 32
         return temperature_fahrenheit
 
-    elif unit_from == temp_units[1] and unit_to == temp_units[0]:
+    elif (unit_from == temp_units[1]) and (unit_to == temp_units[0]):
         temperature_kelvin: float = value + 273.15
         return temperature_kelvin
 
-    elif unit_from == temp_units[1] and unit_to == temp_units[2]:
+    elif (unit_from == temp_units[1]) and (unit_to == temp_units[2]):
         temperature_fahrenheit: float = (value * 9/5) + 32
         return temperature_fahrenheit
 
-    elif unit_from == temp_units[2] and unit_to == temp_units[1]:
+    elif (unit_from == temp_units[2]) and (unit_to == temp_units[1]):
         temperature_celsius: float = (5/9) * (value - 32)
         return temperature_celsius
 
-    elif unit_from == temp_units[2] and unit_to == temp_units[0]:
+    elif (unit_from == temp_units[2]) and (unit_to == temp_units[0]):
         temperature_celsius: float = (5/9) * (value - 32)
         temperature_kelvin: float = temperature_celsius + 273.15
         return temperature_kelvin
 
 
 def convert_vol(value: float, unit_from: str, unit_to: str, vol_units: list[str]) -> float:
-    if unit_from == vol_units[0] and unit_to == vol_units[1]:
+    if (unit_from == vol_units[0]) and (unit_to == vol_units[1]):
         volume_liters = value * pow(10, 3)
         return volume_liters
 
-    elif unit_from == vol_units[0] and unit_to == vol_units[2]:
+    elif (unit_from == vol_units[0]) and (unit_to == vol_units[2]):
         volume_deciliters = value * pow(10, 4)
         return volume_deciliters
 
-    elif unit_from == vol_units[0] and (unit_to == [3] or unit_to == vol_units[4]):
+    elif (unit_from == vol_units[0]) and (unit_to == [3] or unit_to == vol_units[4]):
         volume_milliliters = value * pow(10, 6)
         return volume_milliliters
 
-    elif unit_from == vol_units[1] and unit_to == vol_units[0]:
+    elif (unit_from == vol_units[1]) and (unit_to == vol_units[0]):
         volume_cubic_meters = value / pow(10, 3)
         return volume_cubic_meters
 
-    elif unit_from == vol_units[1] and unit_to == vol_units[2]:
+    elif (unit_from == vol_units[1]) and (unit_to == vol_units[2]):
         volume_deciliters = value * pow(10, 1)
         return volume_deciliters
 
-    elif unit_from == vol_units[1] and (unit_to == vol_units[3] or unit_to == vol_units[4]):
+    elif (unit_from == vol_units[1]) and (unit_to == vol_units[3] or unit_to == vol_units[4]):
         volume_milliliters = value * pow(10, 3)
         return volume_milliliters
 
-    elif unit_from == vol_units[2] and unit_to == vol_units[0]:
+    elif (unit_from == vol_units[2]) and (unit_to == vol_units[0]):
         volume_cubic_meters = value / pow(10, 4)
         return volume_cubic_meters
 
-    elif unit_from == vol_units[2] and unit_to == vol_units[1]:
+    elif (unit_from == vol_units[2]) and (unit_to == vol_units[1]):
         volume_liters = value / pow(10, 1)
         return volume_liters
 
-    elif unit_from == vol_units[2] and (unit_to == vol_units[3] or unit_to == vol_units[4]):
+    elif (unit_from == vol_units[2]) and (unit_to == vol_units[3] or unit_to == vol_units[4]):
         volume_milliliters = value * pow(10, 2)
         return volume_milliliters
 
-    elif (unit_from == vol_units[3] or unit_from == vol_units[4]) and unit_to == vol_units[0]:
+    elif (unit_from == vol_units[3] or unit_from == vol_units[4]) and (unit_to == vol_units[0]):
         volume_cubic_meters = value / pow(10, 6)
         return volume_cubic_meters
 
-    elif (unit_from == vol_units[3] or unit_from == vol_units[4]) and unit_to == vol_units[1]:
+    elif (unit_from == vol_units[3] or unit_from == vol_units[4]) and (unit_to == vol_units[1]):
         volume_liters = value / pow(10, 3)
         return volume_liters
 
-    elif (unit_from == vol_units[3] or unit_from == vol_units[4]) and unit_to == vol_units[2]:
+    elif (unit_from == vol_units[3] or unit_from == vol_units[4]) and (unit_to == vol_units[2]):
         volume_deciliters = value / pow(10, 2)
         return volume_deciliters
 
@@ -144,7 +144,9 @@ Supported quantities and units:
     units: dict = {'temperature': ['Kelvin', 'Degree Celsius', 'Degree Fahrenheit'],
                    'volume': ['m^3', 'L', 'dL', 'mL', 'cm^3'],
                    'mass': ['ton', 'kg', 'g', 'mg']}
-    exit_message: str = 'Exiting program'
+
+    exit_message: str = 'Exiting program...'
+
     while True:
         try:
             user_input: str = input('Enter the type of unit to convert from: ')
@@ -155,18 +157,24 @@ Supported quantities and units:
 
             unit_from: str = user_input
 
-            if unit_from not in units['temperature'] and unit_from not in units['mass'] and unit_from not in units['volume']:
-                print('Invalid unit...')
+            requirements: list[bool] = [unit_from in units['temperature'],
+                                        unit_from in units['mass'], unit_from in units['volume']]
+
+            if not any(requirements):
+                print('Please enter a valid unit...')
                 continue
 
             unit_to: str = input('Enter the type of unit to convert to: ')
 
-            if unit_to not in units['temperature'] and unit_to not in units['mass'] and unit_to not in units['volume']:
+            requirements = [unit_to in units['temperature'],
+                            unit_to in units['mass'], unit_to in units['volume']]
+
+            if not any(requirements):
                 print('Please enter a valid unit...')
                 continue
 
             if unit_from == unit_to:
-                print('Please enter different units...')
+                print('Please enter different units of the same quantity...')
                 continue
 
             flag: bool = False
