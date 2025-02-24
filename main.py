@@ -141,10 +141,11 @@ Supported quantities and units:
 """
     print(greeting)
 
-    units: dict = {'temperature': ['Kelvin', 'Degree Celsius', 'Degree Fahrenheit'],
+    units: dict[str, list[str]] = {'temperature': ['Kelvin', 'Degree Celsius', 'Degree Fahrenheit'],
                    'volume': ['m^3', 'L', 'dL', 'mL', 'cm^3'],
                    'mass': ['ton', 'kg', 'g', 'mg']}
 
+    invalid_unit_msg: str = 'Please enter a valid unit...'
     exit_message: str = 'Exiting program...'
 
     while True:
@@ -161,7 +162,7 @@ Supported quantities and units:
                                         unit_from in units['mass'], unit_from in units['volume']]
 
             if not any(requirements):
-                print('Please enter a valid unit...')
+                print(invalid_unit_msg)
                 continue
 
             unit_to: str = input('Enter the type of unit to convert to: ')
@@ -170,7 +171,7 @@ Supported quantities and units:
                             unit_to in units['mass'], unit_to in units['volume']]
 
             if not any(requirements):
-                print('Please enter a valid unit...')
+                print(invalid_unit_msg)
                 continue
 
             if unit_from == unit_to:
